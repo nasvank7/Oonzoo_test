@@ -1,3 +1,4 @@
+import axiosInstance from "@/lib/axiosInstance";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 
@@ -18,8 +19,8 @@ interface ProductDetailProps {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.params!;
-  const res = await fetch(`https://fakestoreapi.com/products/${id}`);
-  const product = await res.json();
+  const res = await axiosInstance(`/products/${id}`);
+  const product = await res.data;
   return { props: { product } };
 };
 

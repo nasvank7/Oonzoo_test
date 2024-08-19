@@ -1,6 +1,7 @@
-import Link from "next/link";
-import ProductCard from "./ProductCard";
-import Pagination from "./Pagination";
+// components/ProductList.tsx
+
+import Link from 'next/link';
+import ProductCard from './ProductCard';
 
 interface Product {
   id: number;
@@ -11,26 +12,23 @@ interface Product {
 
 interface ProductListProps {
   products: Product[];
-  currentPage: number;
-  totalPages: number;
 }
 
-const ProductList = ({
-  products,
-  currentPage,
-  totalPages,
-}: ProductListProps) => {
+const ProductList = ({ products = [] }: ProductListProps) => {
   return (
     <div className="container mx-auto p-8">
       <h1 className="text-2xl font-bold mb-4">Product List</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-6">
-        {products.map((product) => (
-          <Link key={product.id} href={`/product/${product.id}`}>
-            <ProductCard product={product} />
-          </Link>
-        ))}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {products.length > 0 ? (
+          products.map((product) => (
+            <Link key={product.id} href={`/product/${product.id}`} passHref>
+              <ProductCard product={product} />
+            </Link>
+          ))
+        ) : (
+          <p>No products found.</p>
+        )}
       </div>
-      <Pagination currentPage={currentPage} totalPages={totalPages} />
     </div>
   );
 };

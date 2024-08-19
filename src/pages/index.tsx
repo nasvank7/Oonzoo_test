@@ -1,7 +1,7 @@
-// pages/index.tsx
-
+// pages/in
 import { GetServerSideProps } from "next";
 import ProductList from "../Components/ProductList";
+import axiosInstance from "@/lib/axiosInstance";
 
 interface Product {
   id: number;
@@ -12,42 +12,44 @@ interface Product {
 
 interface ProductPageProps {
   products: Product[];
-  currentPage: number;
-  totalPages: number;
 }
 
-const Home = ({ products, currentPage, totalPages }: ProductPageProps) => {
+const Home = ({ products}: ProductPageProps) => {
+  
   return (
     <ProductList
       products={products}
-      currentPage={currentPage}
-      totalPages={totalPages}
     />
   );
 };
 
-export const getServerSideProps: GetServerSideProps<ProductPageProps> = async (
-  context
-) => {
-  const page = parseInt((context.query.page as string) || "1", 10);
-  const limit = 6; 
-  const res = await fetch(
-    `https://fakestoreapi.com/products?limit=${limit}&offset=${
-      (page - 1) * limit
-    }`
-  );
-  const data = await res.json();
-  const totalRes = await fetch(`https://fakestoreapi.com/products`);
-  const totalData = await totalRes.json();
-  const totalPages = Math.ceil(totalData.length / limit);
+export const getServerSideProps: GetServerSideProps<ProductPageProps> = async (context) => {
+  const url=`/products`
 
-  return {
-    props: {
-      products: data,
-      currentPage: page,
-      totalPages: totalPages,
-    },
-  };
+
+  try {
+    const res = await axiosInstance.get(url);
+    const totalRes = await axiosInstance.get(`/products`);
+    const totalData = totalRes.data;
+
+
+    return {
+      props: {
+        products: res.data,
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    return {
+      props: {
+        products: [],
+        // currentPage: page,
+        totalPages: 0,
+      },
+    };
+  }
 };
+
+
 
 export default Home;
