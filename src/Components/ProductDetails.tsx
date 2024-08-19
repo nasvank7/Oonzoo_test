@@ -17,12 +17,6 @@ interface ProductDetailProps {
   };
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { id } = context.params!;
-  const res = await axiosInstance(`/products/${id}`);
-  const product = await res.data;
-  return { props: { product } };
-};
 
 const ProductDetail = ({ product }: ProductDetailProps) => {
   const renderMetaData = () => {
@@ -94,5 +88,13 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
     </div>
   );
 };
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const { id } = context.params!;
+    const res = await axiosInstance(`/products/${id}`);
+    const product = await res.data;
+    return { props: { product } };
+  };
+  
 
 export default ProductDetail;
