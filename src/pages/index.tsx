@@ -24,14 +24,10 @@ const Home = ({ products}: ProductPageProps) => {
 };
 
 export const getServerSideProps: GetServerSideProps<ProductPageProps> = async (context) => {
-  const url=`/products`
-
-
   try {
+    const url=`/products`
     const res = await axiosInstance.get(url);
     const totalRes = await axiosInstance.get(`/products`);
-    const totalData = totalRes.data;
-
 
     return {
       props: {
@@ -43,8 +39,6 @@ export const getServerSideProps: GetServerSideProps<ProductPageProps> = async (c
     return {
       props: {
         products: [],
-        // currentPage: page,
-        totalPages: 0,
       },
     };
   }
