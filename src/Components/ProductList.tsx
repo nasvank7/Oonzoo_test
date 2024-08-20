@@ -1,5 +1,3 @@
-// components/ProductList.tsx
-
 import Link from 'next/link';
 import ProductCard from './ProductCard';
 
