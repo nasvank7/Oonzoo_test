@@ -26,7 +26,7 @@ const ProductList = ({ products = [] }: ProductListProps) => {
             </Link>
           ))
         ) : (
-          <p>No products found.</p>
+          <p className='font-extrabold'>Sorry,No products found.</p>
         )}
       </div>
     </div>
